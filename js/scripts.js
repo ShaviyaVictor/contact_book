@@ -13,6 +13,9 @@ $(document).ready(function(){
   let inputtedFirstName = $("input#new-first-name").val();
   let inputtedLastName = $("input#new-last-name").val();
 
+  //    creating a variable that will capture the values to be declared for our different keys/parameters of the contact object
+  let newContact = new contact(inputtedFirstName, inputtedLastName);
+
 
   });
 });
