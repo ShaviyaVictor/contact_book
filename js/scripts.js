@@ -16,6 +16,9 @@ $(document).ready(function(){
   //    creating a variable that will capture the values to be declared for our different keys/parameters of the contact object
   let newContact = new contact(inputtedFirstName, inputtedLastName);
 
+  //    jQuery appends the inputs provided in the form by adding a list and reffering to the object constructor
+  $("ul#contacts").append("<li><span class='contact'>" + newContact.firstName + " " + newContact.lastName + "</span></li>");
+
 
   });
 });
