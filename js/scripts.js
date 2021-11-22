@@ -19,6 +19,8 @@ $(document).ready(function(){
   //    jQuery appends the inputs provided in the form by adding a list and reffering to the object constructor
   $("ul#contacts").append("<li><span class='contact'>" + newContact.firstName + " " + newContact.lastName + "</span></li>");
 
-
+  //    jQuery updates a blank input value upon adding the data
+  $("input#new-first-name").val("");
+  $("input#new-last-name").val("");
   });
 });
