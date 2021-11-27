@@ -1,26 +1,128 @@
-//    business logic contact constructor
-function contact(first, last){
-  this.firstName = first;
-  this.lastName = last;
+// //    business logic contact constructor
+// function Contact(first, last){
+//   this.firstName = first;
+//   this.lastName = last;
+// }
+
+// Contact.prototype.fullName = function(){
+//   return this.firstName + " " + this.lastName;
+// }
+
+// //    user interface logic
+// $(document).ready(function(){
+//   $("form#new-contact").submit(function(event){
+//     event.preventDefault();
+
+//   //    variables that will capture the inputted values of our form    
+//   let inputtedFirstName = $("input#new-first-name").val();
+//   let inputtedLastName = $("input#new-last-name").val();
+
+//   //    creating an object that will capture the values to be declared for our different keys/parameters of the Contact objects
+//   let newContact = new Contact(inputtedFirstName, inputtedLastName);
+
+//   //    jQuery appends the inputs provided in the form by adding a list and reffering to the object constructor
+//   $("ul#contacts").append("<li><span class='contact'>" + newContact.fullName() + "</span></li>");
+
+//   //    this code shows the hidden contact information upon the click event
+// /*  $(".contact").last().click(function(){
+//     $("#show-contact").show();
+//     $("#show-contact h2").text(newContact.firstName);
+//     $(".first-name").text(newContact.firstName);
+//     $(".last-name").text(newContact.lastName);
+//   })
+// */
+//   //    jQuery updates a blank input value upon adding the data
+//   $("input#new-first-name").val("");
+//   $("input#new-last-name").val("");
+//   });  
+// });
+
+//    Business Logic
+
+class Contact{
+  constructor(first, last){
+    this.firstName = first;
+    this.lastName = last;
+    this.addresses = [];
+  };
+};
+
+Contact.prototype.fullName = function(){
+  return this.firstName + " " + this.lastName;
+};
+
+class Address{
+  constructor(street, city, county){
+    this.street = street;
+    this.city = city;
+    this.county = county;
+  };
+};
+
+Address.prototype.fullAddress = function() {
+  return this.street + " | " + this.city + " | " + this.county;
 }
 
-//    user interface logic
-$(document).ready(function(){
-  $("form#new-contact").submit(function(event){
+
+//      front-end business logic
+//      activating the another address button and creating more address form fields
+
+
+$(document).ready(function() {
+
+  $("#add-address").click(function() {
+    $("#new-addresses").append('<div class="new-address">' +
+                                 '<div class="form-group">' +
+                                   '<label for="new-street">Street</label>' +
+                                   '<input type="text" class="form-control new-street">' +
+                                 '</div>' +
+                                 '<div class="form-group">' +
+                                   '<label for="new-city">City</label>' +
+                                   '<input type="text" class="form-control new-city">' +
+                                 '</div>' +
+                                 '<div class="form-group">' +
+                                   '<label for="new-county">County</label>' +
+                                   '<input type="text" class="form-control new-county">' +
+                                 '</div>' +
+                               '</div>');
+  });
+
+  $("form#new-contact").submit(function(event) {
     event.preventDefault();
 
-  //    variables that will capture the inputted values of our form    
-  let inputtedFirstName = $("input#new-first-name").val();
-  let inputtedLastName = $("input#new-last-name").val();
+    var inputtedFirstName = $("input#new-first-name").val();
+    var inputtedLastName = $("input#new-last-name").val();
+    var newContact = new Contact(inputtedFirstName, inputtedLastName);
 
-  //    creating a variable that will capture the values to be declared for our different keys/parameters of the contact object
-  let newContact = new contact(inputtedFirstName, inputtedLastName);
+//      looping through the address form fields collecting information to create Address objects and pushing them onto the Contacts object's address property
 
-  //    jQuery appends the inputs provided in the form by adding a list and reffering to the object constructor
-  $("ul#contacts").append("<li><span class='contact'>" + newContact.firstName + " " + newContact.lastName + "</span></li>");
 
-  //    jQuery updates a blank input value upon adding the data
-  $("input#new-first-name").val("");
-  $("input#new-last-name").val("");
+    $(".new-address").each(function() {
+      var inputtedStreet = $(this).find("input.new-street").val();
+      var inputtedCity = $(this).find("input.new-city").val();
+      var inputtedCounty = $(this).find("input.new-county").val();
+      var newAddress = new Address(inputtedStreet, inputtedCity, inputtedCounty)
+      newContact.addresses.push(newAddress)
+    });
+
+    $("ul#contacts").append("<li><span class='contact'>" + newContact.fullName() + "</span></li>");
+
+    $(".contact").last().click(function() {
+      $("#show-contact").show();
+      $("#show-contact h2").text(newContact.fullName());
+      $(".first-name").text(newContact.firstName);
+      $(".last-name").text(newContact.lastName);
+      $("ul#addresses").text("");
+      newContact.addresses.forEach(function(address) {
+        $("ul#addresses").append("<li>" + address.fullAddress() + "</li>");
+      });
+    });
+
+    $("input#new-first-name").val("");
+    $("input#new-last-name").val("");
+    $("input.new-street").val("");
+    $("input.new-city").val("");
+    $("input.new-county").val("");
+
   });
 });

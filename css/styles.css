@@ -2,3 +2,17 @@ button.btn{
   background: wheat;
   margin: 1rem;
 }
+#show-contact {
+  display: none;
+}
+button.btn {
+  cursor: pointer;
+  color: #0088cc;
+}
+
+button.btn:hover{
+  text-decoration: underline;
+} 
+span.contact{
+  color: brown;
+} 
